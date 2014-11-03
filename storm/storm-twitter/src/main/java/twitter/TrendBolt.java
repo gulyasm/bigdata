@@ -34,13 +34,15 @@ public class TrendBolt extends BaseBasicBolt {
         String link = input.getStringByField("tweet-link");
         link = link.trim();
         increment(link);
-        if (System.currentTimeMillis() > lastEmit + THRESHOLD) {
+        final long now = System.currentTimeMillis();
+        if (now > lastEmit + THRESHOLD) {
             System.out.println("===========  EMITTING  ==========");
             for (Entry<String, Integer> entry : links.entrySet()) {
                 collector.emit(new Values(entry.getKey(), entry.getValue()));
             }
             links.clear();
             System.out.println("===========  EMITTING END ==========");
+            lastEmit = now;
         }
 
     }
