@@ -1,0 +1,6 @@
+target
+
+# Eclispe specific
+.project
+.settings
+.classpath
