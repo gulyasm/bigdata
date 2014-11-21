@@ -1,16 +1,16 @@
 package hu.dmlab.spark;
 
-import java.util.Arrays;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
-
 import scala.Tuple2;
+
+import java.util.Arrays;
 
 public class SparkApplication {
 
@@ -34,7 +34,7 @@ public class SparkApplication {
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
             @Override
             public Tuple2<String, Integer> call(String s) {
-                return new Tuple2<String, Integer>(s, 1);
+                return new Tuple2<>(s, 1);
             }
         });
         JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
@@ -44,7 +44,14 @@ public class SparkApplication {
             }
         });
 
-        counts.saveAsTextFile(outputPath);
+        final JavaPairRDD<String, Integer> filtered = counts.filter(new Function<Tuple2<String, Integer>, Boolean>() {
+            @Override
+            public Boolean call(Tuple2<String, Integer> stringIntegerTuple2) throws Exception {
+                return stringIntegerTuple2._2 > 10;
+            }
+        });
+
+        filtered.saveAsTextFile(outputPath);
 
         ctx.stop();
 

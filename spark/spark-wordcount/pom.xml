@@ -4,7 +4,7 @@
 	<groupId>hu.dmlab.spark</groupId>
 	<artifactId>spark-wordcount</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>HelloWorldcountSpark</name>
+	<name>spark-wordcount</name>
 	<description>as</description>
 
 	<dependencies>

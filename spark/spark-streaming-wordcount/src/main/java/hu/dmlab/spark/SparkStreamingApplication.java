@@ -1,8 +1,5 @@
 package hu.dmlab.spark;
 
-import java.io.Serializable;
-import java.util.Arrays;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
@@ -12,8 +9,10 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-
 import scala.Tuple2;
+
+import java.io.Serializable;
+import java.util.Arrays;
 
 public class SparkStreamingApplication implements Runnable, Serializable {
 
@@ -36,7 +35,7 @@ public class SparkStreamingApplication implements Runnable, Serializable {
         JavaPairDStream<String, Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
 
             public Tuple2<String, Integer> call(String arg0) throws Exception {
-                return new Tuple2<String, Integer>(arg0, 1);
+                return new Tuple2<>(arg0, 1);
             }
         });
 

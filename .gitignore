@@ -4,3 +4,7 @@ target
 .project
 .settings
 .classpath
+
+# IDEA specific
+*.iml
+.idea
