@@ -20,10 +20,7 @@ public class LinkExtractorBolt extends BaseBasicBolt {
 
     @Override
     public void execute(Tuple input, BasicOutputCollector collector) {
-        Status status = (Status) input.getValueByField("tweet");
-        for (URLEntity urlentity : status.getURLEntities()) {
-            collector.emit(new Values(urlentity.getDisplayURL()));
-        }
+        // TODO
     }
 
     @Override

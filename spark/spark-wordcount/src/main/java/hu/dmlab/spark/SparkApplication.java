@@ -19,41 +19,7 @@ public class SparkApplication {
             System.err.println("Usage: JavaWordCount <file> <output>");
             System.exit(1);
         }
-        final String outputPath = args[1];
-        SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount");
-        sparkConf.setSparkHome("/opt/spark-1.1.0-bin-hadoop2.3");
-        sparkConf.setMaster("local");
-        JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-        JavaRDD<String> lines = ctx.textFile(args[0], 1);
-        JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-            @Override
-            public Iterable<String> call(String s) {
-                return Arrays.asList(s.replaceAll("[^A-Za-z 0-9]", "").toLowerCase().split("\\s+"));
-            }
-        });
-        JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
-            @Override
-            public Tuple2<String, Integer> call(String s) {
-                return new Tuple2<>(s, 1);
-            }
-        });
-        JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
-            @Override
-            public Integer call(Integer i1, Integer i2) {
-                return i1 + i2;
-            }
-        });
-
-        final JavaPairRDD<String, Integer> filtered = counts.filter(new Function<Tuple2<String, Integer>, Boolean>() {
-            @Override
-            public Boolean call(Tuple2<String, Integer> stringIntegerTuple2) throws Exception {
-                return stringIntegerTuple2._2 > 10;
-            }
-        });
-
-        filtered.saveAsTextFile(outputPath);
-
-        ctx.stop();
+        // TODO
 
     }
 }

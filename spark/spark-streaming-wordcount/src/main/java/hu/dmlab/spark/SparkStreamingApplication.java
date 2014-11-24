@@ -40,44 +40,6 @@ public class SparkStreamingApplication implements Runnable, Serializable {
 				"DRXRaP0Jcaeruj8vbrwZJsny8EHO552YLZViyN1sfQYin");
 		JavaReceiverInputDStream<Status> lines = TwitterUtils
 				.createStream(jssc, new String[]{"bieber"});
-		JavaDStream<String> words = lines
-				.flatMap(new FlatMapFunction<Status, String>() {
-
-					@Override
-					public Iterable<String> call(Status arg0) throws Exception {
-						return Arrays.asList(arg0.getText().split(" "));
-					}
-				});
-
-		JavaPairDStream<String, Integer> pairs = words
-				.mapToPair(new PairFunction<String, String, Integer>() {
-
-					public Tuple2<String, Integer> call(String arg0)
-							throws Exception {
-						return new Tuple2<>(arg0, 1);
-					}
-				});
-
-		JavaPairDStream<String, Integer> result = pairs
-				.reduceByKey(new Function2<Integer, Integer, Integer>() {
-
-					public Integer call(Integer arg0, Integer arg1)
-							throws Exception {
-						return arg0 + arg1;
-					}
-				});
-
-		JavaPairDStream<String, Integer> filteredResult = result.filter(new Function<Tuple2<String,Integer>, Boolean>() {
-
-			@Override
-			public Boolean call(Tuple2<String, Integer> arg0) throws Exception {
-				return arg0._2.intValue() > 2;
-			}
-		});
-
-		filteredResult.print();
-
-		jssc.start(); // Start the computation
-		jssc.awaitTermination(); // Wait for the computation to terminate
+		// TODO
 	}
 }

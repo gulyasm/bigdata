@@ -19,11 +19,7 @@ public class PritingBolt extends BaseBasicBolt {
 
     @Override
     public void execute(Tuple input, BasicOutputCollector collector) {
-        Integer count = input.getInteger(1);
-        if (count > THRESHOLD) {
-            String link = MessageFormat.format("{0} - {1}", input.getString(0), count);
-            System.out.println(link);
-        }
+       // TODO
 
     }
 
